@@ -8,15 +8,6 @@ public class Darts {
         int playerScore;
     }
 
-    private static boolean isNumber(String s) { //TODO: Объединить функции isNumber() и toNumber() в одну!
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     private static int toNumber(String string) {
         return Integer.parseInt(string);
     }
@@ -27,7 +18,6 @@ public class Darts {
             System.exit(1);
         }
     }
-
 
     public static void main(String[] args) throws Exception {
 
@@ -40,14 +30,14 @@ public class Darts {
         while (true) {
             String amountOfPlayersS = reader.readLine();
             isExit(amountOfPlayersS);
-            if (isNumber(amountOfPlayersS)) {
-                amountOfPlayers = Integer.parseInt(amountOfPlayersS);
+            try {
+                amountOfPlayers = toNumber(amountOfPlayersS);
                 break;
-            } else {
+            } catch (NumberFormatException e) {
                 System.out.println("This is not a number! Please enter again.");
             }
         }
-        Player players[] = new Player[amountOfPlayers];                 //TODO: Добавить проверку на верный ввод числа
+        Player players[] = new Player[amountOfPlayers];
         for (int i = 0; i < amountOfPlayers; i++) {
             System.out.println(("Enter the name of Player ") + (i + 1));
             String curName = reader.readLine();
@@ -63,11 +53,19 @@ public class Darts {
             for (int i = 0; i < amountOfPlayers; i++) {
                 System.out.println();
                 Player curPlayer = players[i];
-                System.out.println(curPlayer.playerName + " throws:");
-                String curInput = reader.readLine();
-                isExit(curInput);
-
-                int curMove = Integer.parseInt(curInput);
+                int curMove = 0;
+                String curInput;
+                while (true) {
+                    try {
+                        System.out.println(curPlayer.playerName + " throws:");
+                        curInput = reader.readLine();
+                        isExit(curInput);
+                        curMove = toNumber(curInput);
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("This is not a number! Please enter again.");
+                    }
+                }
                 if (curMove > curPlayer.playerScore) {
                     System.out.println("Too much! Brr...");
                     System.out.println("You steel need " + curPlayer.playerScore);
@@ -83,7 +81,6 @@ public class Darts {
                     break;
                 }
             }
-
             System.out.println();
             for (int i = 0; i < amountOfPlayers; i++) {
                 Player curPlayer = players[i];
