@@ -22,7 +22,7 @@ public class Darts {
     private static void showScore(int amountOfPlayers, Player[] players) { // Function_show_scores
         for (int i = 0; i < amountOfPlayers; i++) {
             Player curPlayer = players[i];
-            System.out.printf("%10s%", curPlayer.playerName); // TODO: make "beautiful" format of player scores
+            System.out.printf("%10s%n10s%n", curPlayer.playerName, curPlayer.playerScore); //TODO: make "beautiful" format of player scores
         }
     }
 
@@ -75,8 +75,7 @@ public class Darts {
                 }
                 if (curMove == curPlayer.playerScore) {
                     curPlayer.playerScore = curPlayer.playerScore - curMove;
-                    System.out.println();
-                    System.out.println(curPlayer.playerName + " WINS!!! Congratulations!!!\n");
+                    System.out.println("\n" + curPlayer.playerName + " WINS!!! Congratulations!!!\n");
                     showScore(amountOfPlayers, players);
                     play = false;
                     break;
