@@ -10,12 +10,19 @@ public class Darts {
 
     private static int toNumber(String string) {
         return Integer.parseInt(string);
+    } // Function_parse_String_to_int
+
+    private static void isExit(String string) { // Function_diff_exit
+        if ("exit".equals(string)) {
+            System.out.println("Ok, bye bye.");
+            System.exit(1);
+        }
     }
 
-    private static void isExit(String s) {
-        if ("exit".equals(s)) {
-            System.out.println("Ok, bye.");
-            System.exit(1);
+    private static void showScore(int amountOfPlayers, Player[] players) { // Function_show_scores
+        for (int i = 0; i < amountOfPlayers; i++) {
+            Player curPlayer = players[i];
+            System.out.printf("%10s%", curPlayer.playerName); // TODO: make "beautiful" format of player scores
         }
     }
 
@@ -28,16 +35,16 @@ public class Darts {
         int amountOfPlayers;
 
         while (true) {
-            String amountOfPlayersS = reader.readLine();
-            isExit(amountOfPlayersS);
+            String amountOfPlayersString;
+            isExit(amountOfPlayersString = reader.readLine());
             try {
-                amountOfPlayers = toNumber(amountOfPlayersS);
+                amountOfPlayers = toNumber(amountOfPlayersString);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("This is not a number! Please enter again.");
             }
         }
-        Player players[] = new Player[amountOfPlayers];
+        Player[] players = new Player[amountOfPlayers];
         for (int i = 0; i < amountOfPlayers; i++) {
             System.out.println(("Enter the name of Player ") + (i + 1));
             String curName = reader.readLine();
@@ -53,7 +60,7 @@ public class Darts {
             for (int i = 0; i < amountOfPlayers; i++) {
                 System.out.println();
                 Player curPlayer = players[i];
-                int curMove = 0;
+                int curMove;
                 String curInput;
                 while (true) {
                     try {
@@ -63,37 +70,25 @@ public class Darts {
                         curMove = toNumber(curInput);
                         break;
                     } catch (NumberFormatException e) {
-                        System.out.println("This is not a number! Please enter again.");
+                        System.out.println("Error, please enter number format.");
                     }
                 }
-                if (curMove > curPlayer.playerScore) {
-                    System.out.println("Too much! Brr...");
-                    System.out.println("You steel need " + curPlayer.playerScore);
-                } else if (curMove < curPlayer.playerScore) {
-                    curPlayer.playerScore = curPlayer.playerScore - curMove;
-                    System.out.println("Now " + curPlayer.playerName + " need " + curPlayer.playerScore);
-                } else if (curMove == curPlayer.playerScore) {
+                if (curMove == curPlayer.playerScore) {
                     curPlayer.playerScore = curPlayer.playerScore - curMove;
                     System.out.println();
-                    System.out.println(curPlayer.playerName + " WINS!!! Congratulations!!!");
-                    System.out.println();
+                    System.out.println(curPlayer.playerName + " WINS!!! Congratulations!!!\n");
+                    showScore(amountOfPlayers, players);
                     play = false;
                     break;
+                } else if (curMove > curPlayer.playerScore) {
+                    System.out.println("Too much!");
+                    showScore(amountOfPlayers, players);
+                    System.out.println();
+                } else if (curMove < curPlayer.playerScore) {
+                    curPlayer.playerScore = curPlayer.playerScore - curMove;
+                    showScore(amountOfPlayers, players);
                 }
             }
-            System.out.println();
-            for (int i = 0; i < amountOfPlayers; i++) {
-                Player curPlayer = players[i];
-                System.out.print(curPlayer.playerName);
-                System.out.print("    ");
-            }
-            System.out.println();
-            for (int i = 0; i < amountOfPlayers; i++) {
-                Player curPlayer = players[i];
-                System.out.print(curPlayer.playerScore);
-                System.out.print("      ");
-            }
-            System.out.println();
         }
     }
 }
