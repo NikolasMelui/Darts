@@ -8,18 +8,21 @@ public class Darts {
         int playerScore;
     }
 
+    // Function_parse_String_to_int
     private static int toNumber(String string) {
         return Integer.parseInt(string);
-    } // Function_parse_String_to_int
+    } 
 
-    private static void isExit(String string) { // Function_diff_exit
+    // Function_exit
+    private static void isExit(String string) {
         if ("exit".equals(string)) {
             System.out.println("Ok, bye bye.");
             System.exit(1);
         }
     }
-
-    private static void showScore(int amountOfPlayers, Player[] players) { // Function_show_scores
+	
+	// Function_show_scores
+    private static void showScore(int amountOfPlayers, Player[] players) { 
         for (int i = 0; i < amountOfPlayers; i++) {
             Player curPlayer = players[i];
             System.out.printf("%10s%n10s%n", curPlayer.playerName, curPlayer.playerScore); //TODO: make "beautiful" format of player scores
